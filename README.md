@@ -52,4 +52,17 @@ trigger 'lessc #1 > main.css' main.less
 
 ## Installation
 
-Put the two scripts `trigger` and `tg` somewhere on your `PATH`.
+Simply put the two scripts `trigger` and `tg` somewhere on your `PATH`.
+
+Keeping in mind that, in principle, you should not copy-and-paste into your
+shell, something like this should work:
+``` bash
+mkdir ~/.trigger
+cd ~/.trigger
+
+wget https://raw.githubusercontent.com/sharkdp/trigger/master/trigger
+wget https://raw.githubusercontent.com/sharkdp/trigger/master/tg
+
+chmod +x tg trigger
+echo 'export PATH="$PATH:$HOME/.trigger"' >> .bashrc
+```
