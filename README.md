@@ -52,6 +52,9 @@ trigger 'lessc #1 > main.css' main.less
 
 ## Installation
 
+Requirements:
+- trigger is a simple wrapper around `inotifywait`, which should be available on most systems (the package is typically called inotify-tools).
+
 Simply put the two scripts `trigger` and `tg` somewhere on your `PATH`.
 
 Keeping in mind that, in principle, you should not copy-and-paste into your
