@@ -58,6 +58,7 @@ run() {
     fi
 
     echo -e "${color}>>>${reset} finished ${status_info}after ${elapsed} second(s)"
+    echo
 }
 
 # Run the command once
