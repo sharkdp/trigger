@@ -6,8 +6,8 @@ Usage: trigger COMMAND FILE1 [FILE2...]
 
 trigger runs the given *COMMAND* every time one of the *FILE*s is changed.
 
-In the COMMAND string, `#1`, `#2`, .. can be used as synonyms for FILE1,
-FILE2, ..
+In the COMMAND string, `#1`, `#2`, .. can be used as synonyms for the *FILE*names.
+The helper `tg COMMAND FILE1 ...` is a shortcut for `trigger 'COMMAND #1' FILE1 ...`.
 
 ![Example usage](http://i.imgur.com/xlpR376.gif)
 
