@@ -1,12 +1,13 @@
 # trigger
 
-## Usage
-
 ``` bash
-trigger COMMAND FILE1 [FILE2...]
+Usage: trigger COMMAND FILE1 [FILE2...]
 ```
 
-Runs the given `COMMAND` every time one of the `FILE`s is changed.
+trigger runs the given *COMMAND* every time one of the *FILE*s is changed.
+
+In the COMMAND string, `#1`, `#2`, .. can be used as synonyms for FILE1, FILE2, ..
+
 
 ## Examples
 
@@ -26,7 +27,7 @@ Run `python main.py` every time either `main.py` or `config.py` changes:
 trigger 'python #1' main.py config.py
 ```
 
-By using the `tg` helper command, this can be shortened to:
+By using the `tg` helper command (`tg CMD FILE1..` is equivalent to `trigger 'CMD #1' FILE1 ..`), this can be shortened to:
 
 ``` bash
 tg python main.py config.py
