@@ -36,7 +36,7 @@ tg python main.py config.py
 ### Markdown to PDF
 
 Convert a Markdown document to PDF every time it is changed. Combine this with
-an auto-reloading PDF-viewer (e.g. okular) to get a live preview.
+an auto-reloading PDF-viewer (e.g. okular) to get a live preview:
 
 ``` bash
 trigger 'pandoc #1 -t latex -o README.pdf' README.md
@@ -44,7 +44,7 @@ trigger 'pandoc #1 -t latex -o README.pdf' README.md
 
 ### Less to CSS
 
-Convert a LESS file to CSS
+Convert a LESS file to CSS:
 
 ``` bash
 trigger 'lessc #1 > main.css' main.less
