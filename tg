@@ -1,0 +1,16 @@
+#!/bin/bash
+#
+# Usage:
+#
+#   tg COMMAND FILE1 [FILE2..]
+#
+# A simple wrapper on top of 'trigger'.
+#
+# Calling 'tg python main.py' is equivalent to
+#
+#   trigger 'python #1' main.py
+#
+
+command="$1"
+shift
+trigger "$command #1" "$@"
