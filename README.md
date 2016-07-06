@@ -6,7 +6,8 @@ Usage: trigger COMMAND FILE1 [FILE2...]
 
 trigger runs the given *COMMAND* every time one of the *FILE*s is changed.
 
-In the COMMAND string, `#1`, `#2`, .. can be used as synonyms for FILE1, FILE2, ..
+In the COMMAND string, `#1`, `#2`, .. can be used as synonyms for FILE1,
+FILE2, ..
 
 
 ## Examples
@@ -27,7 +28,8 @@ Run `python main.py` every time either `main.py` or `config.py` changes:
 trigger 'python #1' main.py config.py
 ```
 
-By using the `tg` helper command (`tg CMD FILE1..` is equivalent to `trigger 'CMD #1' FILE1 ..`), this can be shortened to:
+By using the `tg` helper command (`tg CMD FILE1..` is equivalent to
+`trigger 'CMD #1' FILE1 ..`), this can be shortened to:
 
 ``` bash
 tg python main.py config.py
@@ -50,22 +52,20 @@ Convert a LESS file to CSS:
 trigger 'lessc #1 > main.css' main.less
 ```
 
+
+## Requirements
+
+trigger is just a simple wrapper around `inotifywait`. It should be available
+on most systems (the package is typically called `inotify-tools`).
+
+
 ## Installation
-
-Requirements:
-- trigger is a simple wrapper around `inotifywait`, which should be available on most systems (the package is typically called inotify-tools).
-
-Simply put the two scripts `trigger` and `tg` somewhere on your `PATH`.
 
 Keeping in mind that, in principle, you should not copy-and-paste into your
 shell, something like this should work:
+
 ``` bash
-mkdir ~/.trigger
-cd ~/.trigger
+git clone https://github.com/sharkdp/trigger ~/.trigger
 
-wget https://raw.githubusercontent.com/sharkdp/trigger/master/trigger
-wget https://raw.githubusercontent.com/sharkdp/trigger/master/tg
-
-chmod +x tg trigger
 echo 'export PATH="$PATH:$HOME/.trigger"' >> .bashrc
 ```
