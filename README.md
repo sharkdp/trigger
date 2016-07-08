@@ -5,6 +5,8 @@ Usage: trigger COMMAND [FILE...]
 ```
 
 trigger runs the given *COMMAND* every time one of the *FILE*s is changed.
+If no *FILE* argument is given, trigger watches everything in the current
+directory, recursively.
 
 In the COMMAND string, `#1`, `#2`, .. can be used as synonyms for the
 *FILE*names. The helper `tg COMMAND FILE ...` is a shortcut for
