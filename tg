@@ -11,6 +11,11 @@
 #   trigger 'python #1' main.py
 #
 
+if [[ $# -lt 2 ]]; then
+    echo "Usage: tg COMMAND FILE1 [FILE2..]"
+    exit 1
+fi
+
 command="$1"
 shift
 trigger "$command #1" "$@"
