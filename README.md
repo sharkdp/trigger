@@ -29,8 +29,7 @@ Run `python main.py` every time either `main.py` or `config.py` changes:
 trigger 'python #1' main.py config.py
 ```
 
-By using the `tg` helper command (`tg CMD FILE1..` is equivalent to
-`trigger 'CMD #1' FILE1 ..`), this can be shortened to:
+By using the `tg` helper command, this can be shortened to:
 
 ``` bash
 tg python main.py config.py
