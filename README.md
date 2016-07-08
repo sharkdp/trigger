@@ -1,13 +1,14 @@
 # trigger
 
 ``` bash
-Usage: trigger COMMAND FILE1 [FILE2...]
+Usage: trigger COMMAND [FILE...]
 ```
 
 trigger runs the given *COMMAND* every time one of the *FILE*s is changed.
 
-In the COMMAND string, `#1`, `#2`, .. can be used as synonyms for the *FILE*names.
-The helper `tg COMMAND FILE1 ...` is a shortcut for `trigger 'COMMAND #1' FILE1 ...`.
+In the COMMAND string, `#1`, `#2`, .. can be used as synonyms for the
+*FILE*names. The helper `tg COMMAND FILE ...` is a shortcut for
+`trigger 'COMMAND #1' FILE ...`.
 
 ![Example usage](http://i.imgur.com/xlpR376.gif)
 
@@ -15,10 +16,10 @@ The helper `tg COMMAND FILE1 ...` is a shortcut for `trigger 'COMMAND #1' FILE1 
 
 ### Make
 
-Run `make` every time one of the source files changes:
+Run `make` every time one of the files in the current directory changes:
 
 ```
-trigger make src/*.cpp src/*.h
+trigger make
 ```
 
 ### Python

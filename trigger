@@ -2,7 +2,7 @@
 #
 # Usage:
 #
-#   trigger COMMAND FILE1 [FILE2...]
+#   trigger COMMAND [FILE...]
 #
 # Runs the given COMMAND every time one of the FILEs is changed.
 #
@@ -16,8 +16,8 @@
 
 
 # Check command line arguments
-if [[ $# -lt 2 ]]; then
-    echo "Usage: trigger COMMAND FILE1 [FILE2...]"
+if [[ $# -eq 0 ]]; then
+    echo "Usage: trigger COMMAND [FILE...]"
     exit 1
 fi
 
@@ -27,19 +27,32 @@ blue='\x1b[34;01m'
 green='\x1b[32;01m'
 red='\x1b[31;01m'
 
-# Replace occurences of #1, #2, .., #9 in the given command with the
-# corresponding file names
 command="$1"
-shift
-for n in {1..9}; do
-    # get the n-th filename
-    ARG="${!n}"
 
-    # replace #n with the n-th filename
-    command="${command//\#${n}/$ARG}"
-done
+if [[ $# -gt 1 ]]; then
+    # Replace occurences of #1, #2, .., #9 in the given command with the
+    # corresponding file names
+
+    shift
+    for n in {1..9}; do
+        # get the n-th filename
+        ARG="${!n}"
+
+        # replace #n with the n-th filename
+        command="${command//\#${n}/$ARG}"
+    done
+
+    watchall=false
+else
+    watchall=true
+fi
 
 run() {
+    if [[ $# -eq 1 ]]; then
+        local cfile="$1"
+        echo -e "${blue}>>>${reset} File '$cfile' has been changed"
+    fi
+
     # Run the command and measure the elapsed time
     local starttime=$SECONDS
 
@@ -65,8 +78,16 @@ run() {
 echo -e "${blue}>>>${reset} Initial run of '${command}'"
 run
 
-# Run the command repeatedly everytime one of the files changes
-while cfile=$(inotifywait --quiet --format '%w' --event close_write "$@"); do
-    echo -e "$blue>>>$reset File '$cfile' has been changed"
-    run
-done
+# Run the command repeatedly, every time one of the files changes
+
+if [[ $watchall = true ]]; then
+    # Watch all files in the current directory
+
+    while cfile=$(inotifywait --quiet --format '%w%f' --event close_write -r .); do
+        run "$cfile"
+    done
+else
+    while cfile=$(inotifywait --quiet --format '%w' --event close_write "$@"); do
+        run "$cfile"
+    done
+fi
