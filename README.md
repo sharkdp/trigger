@@ -72,3 +72,10 @@ git clone https://github.com/sharkdp/trigger ~/.trigger
 
 echo 'export PATH="$PATH:$HOME/.trigger"' >> .bashrc
 ```
+
+## Related projects
+
+Also have a look at these projects, to see if they fit your needs better:
+
+- [http://entrproject.org/](http://entrproject.org/) - more features, slightly more complicated syntax
+- [https://github.com/joh/when-changed](https://github.com/joh/when-changed) - different syntax, requires python and watchdog
