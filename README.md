@@ -41,7 +41,7 @@ Convert a Markdown document to PDF every time it is changed. Combine this with
 an auto-reloading PDF-viewer (e.g. okular) to get a live preview:
 
 ``` bash
-trigger 'pandoc #1 -t latex -o README.pdf' README.md
+tg 'pandoc -t latex -o README.pdf' README.md
 ```
 
 ### Less to CSS
@@ -56,7 +56,7 @@ trigger 'lessc #1 > main.css' main.less
 ## Requirements
 
 trigger is just a simple wrapper around `inotifywait`. It should be available
-on most systems (the package is typically called `inotify-tools`).
+for most Linux distributions (the package is typically called `inotify-tools`).
 
 
 ## Installation
