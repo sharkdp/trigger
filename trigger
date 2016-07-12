@@ -83,7 +83,7 @@ run
 if [[ $watchall = true ]]; then
     # Watch all files in the current directory
 
-    while cfile=$(inotifywait --quiet --format '%w%f' --event close_write -r .); do
+    while cfile=$(inotifywait --quiet --format '%w%f' --event close_write --exclude '\.git' -r .); do
         run "$cfile"
     done
 else
