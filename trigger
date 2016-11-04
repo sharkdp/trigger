@@ -2,20 +2,38 @@
 #
 # Usage:
 #
-#   trigger COMMAND [FILE...]
+#   trigger [OPTIONS] COMMAND [FILE...]
 #
 # Runs the given COMMAND every time one of the FILEs is changed.
 #
 # In the COMMAND string, #1, #2, ..., #9 can be used as synonyms for FILE1,
 # FILE2, ..., FILE9.
 #
-# Example:
+# OPTIONS
+#
+#   -i, --interrupt
+#          If this mode is enabled, a running COMMAND will be killed if a file
+#          changes.
+#
+# EXAMPLE
 #
 #   trigger 'python #1' main.py config.py
 #
 
+# This flag determines Whether or not 'trigger' is running in interrupt mode.
+# If this mode is enabled, trigger will kill the subprocess when a file changes
+# (in case it is still running).
+interruptMode=false
 
 # Check command line arguments
+if [[ "$1" == "-i" || "$1" == "--interrupt" ]]; then
+    interruptMode=true
+
+    # The process ID of the subprocess
+    lastPID="none"
+    shift
+fi
+
 if [[ $# -eq 0 ]]; then
     echo "Usage: trigger COMMAND [FILE...]"
     exit 1
@@ -47,7 +65,7 @@ else
     watchall=true
 fi
 
-run() {
+runChild() {
     if [[ $# -eq 1 ]]; then
         local cfile="$1"
         echo -e "${blue}>>>${reset} File '$cfile' has been changed"
@@ -72,6 +90,26 @@ run() {
 
     echo -e "${color}>>>${reset} finished ${status_info}after ${elapsed} second(s)"
     echo
+}
+
+run() {
+    if [[ $interruptMode = true ]]; then
+        numPIDS=$(ps --no-headers -o pid --ppid=$$ | wc -w)
+        if [[ $numPIDS != 1 ]]; then
+            # We have at least one subprocess (that will be killed)
+            echo -e "${red}>>>${reset} Interrupting currently running process\n"
+
+            kill $lastPID
+            wait $lastPID 2> /dev/null
+        fi
+
+        # Start the subprocess asynchronously
+        runChild "$@" &
+        lastPID=$!
+    else
+        # Start the subprocess synchronously
+        runChild "$@"
+    fi
 }
 
 # Run the command once
