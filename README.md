@@ -55,6 +55,14 @@ Convert a LESS file to CSS:
 trigger 'lessc #1 > main.css' main.less
 ```
 
+### Interrupt mode
+
+If `trigger` is called with the `-i` (or `--interrupt`) option, it will kill
+running subprocesses whenever a file changes:
+``` bash
+trigger -i longRunningCommand input.dat
+```
+
 
 ## Requirements
 
