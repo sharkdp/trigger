@@ -87,3 +87,5 @@ Also have a look at these projects, to see if they fit your needs better:
 
 - [http://entrproject.org/](http://entrproject.org/) - more features, slightly more complicated syntax
 - [https://github.com/joh/when-changed](https://github.com/joh/when-changed) - different syntax, requires python and watchdog
+- [https://facebook.github.io/watchman/](https://facebook.github.io/watchman/) - much more powerful but more complicated syntax.
+- [http://inotify.aiken.cz/?section=incron&page=about](http://inotify.aiken.cz/?section=incron&page=about) - more difficult to setup up
