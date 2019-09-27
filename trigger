@@ -121,11 +121,11 @@ run
 if [[ $watchall = true ]]; then
     # Watch all files in the current directory
 
-    while cfile=$(inotifywait --quiet --format '%w%f' --event close_write --exclude '\.git' -r .); do
+    while cfile=$(inotifywait --quiet --format '%w%f' --event close_write,move_self --exclude '\.git' -r .); do
         run "$cfile"
     done
 else
-    while cfile=$(inotifywait --quiet --format '%w' --event close_write "$@"); do
+    while cfile=$(inotifywait --quiet --format '%w' --event close_write,move_self "$@"); do
         run "$cfile"
     done
 fi
