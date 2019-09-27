@@ -126,6 +126,15 @@ if [[ $watchall = true ]]; then
     done
 else
     while cfile=$(inotifywait --quiet --format '%w' --event close_write,move_self "$@"); do
+        [[ ! -e "$cfile" ]] && sleep 0.1
+        if [[ ! -e "$cfile" ]]; then
+            echo -n "File '$cfile' was deleted, waiting for it to reappear .."
+            while [[ ! -e "$cfile" ]]; do
+                sleep 0.1
+                echo -n "."
+            done
+            echo
+        fi
         run "$cfile"
     done
 fi
