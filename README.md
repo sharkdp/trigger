@@ -66,9 +66,14 @@ trigger -i longRunningCommand input.dat
 
 ## Requirements
 
+### Linux
 trigger is just a simple wrapper around `inotifywait`. It should be available
 for most Linux distributions (the package is typically called `inotify-tools`).
 
+### Mac
+
+trigger uses `fswatch` when running on a Mac. 
+You can install it with brew: `brew install fswatch`
 
 ## Installation
 

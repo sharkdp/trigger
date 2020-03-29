@@ -20,6 +20,27 @@
 #   trigger 'python #1' main.py config.py
 #
 
+# Use fswatch on Mac systems
+if [[ "$OSTYPE" == "darwin"* ]]; then
+    if ! command -V fswatch >/dev/null 2>&1; then
+        echo "trigger requires 'fswatch'" >&2
+        echo "Install with 'brew install fswatch'" >&2
+        exit 1
+    fi
+    watch_cmd=(fswatch -1 --event Created --event Updated --event Renamed --event MovedTo)
+    watch_all_cmd=(fswatch -1 --exclude '\.git' --event Created --event Updated --event Renamed --event MovedTo --recursive .)
+else
+    if ! command -V inotifywait >/dev/null 2>&1; then
+        echo "trigger requires 'inotifywait'" >&2
+        echo "Install with 'sudo apt-get install inotify-tools'" >&2
+        exit 1
+    fi
+
+    # Default to inotifywait
+    watch_cmd=(inotifywait --quiet --format '%w' --event close_write,move_self)
+    watch_all_cmd=(inotifywait --quiet --format '%w%f' --event close_write,move_self --exclude '\.git' -r .)
+fi
+
 # This flag determines Whether or not 'trigger' is running in interrupt mode.
 # If this mode is enabled, trigger will kill the subprocess when a file changes
 # (in case it is still running).
@@ -121,11 +142,11 @@ run
 if [[ $watchall = true ]]; then
     # Watch all files in the current directory
 
-    while cfile=$(inotifywait --quiet --format '%w%f' --event close_write,move_self --exclude '\.git' -r .); do
+    while cfile=$( "${watch_all_cmd[@]}" | head -n1 ); do
         run "$cfile"
     done
 else
-    while cfile=$(inotifywait --quiet --format '%w' --event close_write,move_self "$@"); do
+    while cfile=$( "${watch_cmd[@]}" "$@" | head -n1); do
         [[ ! -e "$cfile" ]] && sleep 0.1
         if [[ ! -e "$cfile" ]]; then
             echo -n "File '$cfile' was deleted, waiting for it to reappear .."
